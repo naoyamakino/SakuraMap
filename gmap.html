@@ -1,0 +1,109 @@
+<!DOCTYPE html> 
+<html> 
+	<head profile="http://dublincore.org/documents/dcq-html/">
+	
+		<title>jQuery mobile with Google maps basic example</title>
+		<meta name="keywords" content="Google maps, jQuery, plugin, mobile, iphone, ipad, android, HTML5" />
+		<meta name="description" content="Basic example with jQuery mobile, Google maps and HTML5" />
+		<meta http-equiv="content-language" content="en"/>
+		
+		<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
+		<meta name="DC.title" content="jQuery mobile with Google maps basic example" />
+		<meta name="DC.subject" content="Google maps;jQuery;plugin;mobile;iphone;ipad;android;HTML5" />
+		<meta name="DC.description" content="Basic example with jQuery mobile, Google maps and HTML5" />
+		<meta name="DC.creator" content="Johan S&auml;ll Larsson" />
+		<meta name="DC.language" content="en"/>
+		
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a4/jquery.mobile-1.0a4.min.css" />
+		<style rel="stylesheet">
+			body {  background: #ddd; }
+			.ui-body-c a.ui-link { color: #008595; font-weight: bold; text-decoration: none; }
+			.hidden { display:none; }
+			h2 { font-size: 16px; overflow: hidden; white-space: nowrap; display: block; }
+			.more { text-align: center; }
+		</style>
+		<script src="http://www.google.com/jsapi?key=ABQIAAAAahcO7noe62FuOIQacCQQ7RTHkUDJMJAZieEeKAqNDtpKxMhoFxQsdtJdv3FJ1dT3WugUNJb7xD-jsQ" type="text/javascript"></script>        
+        <script type="text/javascript">
+			google.load("maps", "3", {'other_params':'sensor=true'});
+			google.load("jquery", "1.5");
+		</script>
+		<script type="text/javascript">
+			// Demonstration purpose only...
+			$(document).bind("mobileinit", function () {
+				$.mobile.ajaxEnabled  = true;
+			});
+		</script>
+		<script type="text/javascript" src="http://code.jquery.com/mobile/1.0a4/jquery.mobile-1.0a4.min.js"></script>
+		<script type="text/javascript" src="../ui/jquery.ui.map.js"></script>
+	</head> 
+
+	<body> 
+
+		<div id="gmap-2" data-role="page">
+
+			<div data-role="header">
+				<h1><a data-ajax="false" href="/">jQuery mobile with Google maps</a> basics</h1>
+			</div>
+
+			<script type="text/javascript">
+				$('#gmap-2').live("pageshow", function() {
+
+					$('#map_canvas').gmap({'center': getLatLng(), 'zoom': 11, 'callback': function() {
+
+                            // XXX: drip marker will be easy
+							$('#map_canvas').gmap('addMarker', 
+                            
+                            
+                            {
+                                'icon': '/img/flowers.png', 
+                                'position': getLatLng(), 'animation': google.maps.Animation.DROP, 'title': 'Hello world!'}, function(map, marker) {
+								$('#map_canvas').gmap('addInfoWindow', { 'position':marker.getPosition(), 'content': 'Hello world!' }, function(iw) { 
+									$(marker).click(function() { 
+											iw.open(map, marker); 
+											map.panTo(marker.getPosition());
+                                            //console.log("Callback"); 
+                                            //map.setCenter(marker.getPosition(), 13);
+									}); 
+								}); 
+							});
+						}
+					});
+                    function getLatLng() {
+						if ( google.loader.ClientLocation != null ) {
+							return new google.maps.LatLng(google.loader.ClientLocation.latitude, google.loader.ClientLocation.longitude);	
+						}
+                        // sweden!
+						//return new google.maps.LatLng(59.3426606750, 18.0736160278);
+
+                        // vancouver?
+						return new google.maps.LatLng(49.216666667, -123.1);
+					}
+				});
+			</script>
+			
+			<div data-role="content"> 
+                
+				<div class="ui-bar-c ui-corner-all ui-shadow" style="padding:1em;">
+					<div id="map_canvas" style="height:300px;"></div>
+				</div>
+				
+			</div>
+			
+			<div data-role="footer" data-theme="a">
+				<h3>Need help?</h3>
+				<p class="more">Please feel free to ask for help in the <a data-ajax="false" href="http://groups.google.com/group/jquery-ui-map-discuss">forum</a></p>
+			</div>
+
+			<div id="ft" class="hidden" itemscope itemtype="http://data-vocabulary.org/Person">
+				Author: 
+				<span itemprop="name">Johan S&auml;ll Larsson</span>  
+				<span itemprop="address" itemscope itemtype="http://data-vocabulary.org/Address">
+					<span itemprop="locality">G&ouml;teborg</span>, 
+					<span itemprop="country-name">Sweden</span> 
+				</span>
+			</div>
+			
+		</div>
+	</body>
+	
+</html>
