@@ -35,6 +35,7 @@
 		</script>
 		<script type="text/javascript" src="http://code.jquery.com/mobile/1.0a4/jquery.mobile-1.0a4.min.js"></script>
 		<script type="text/javascript" src="../ui/jquery.ui.map.js"></script>
+		<script type="text/javascript" src="../js/maptrees.js"></script>
 	</head> 
 
 	<body> 
@@ -46,39 +47,7 @@
 			</div>
 
 			<script type="text/javascript">
-				$('#gmap-2').live("pageshow", function() {
-
-					$('#map_canvas').gmap({'center': getLatLng(), 'zoom': 11, 'callback': function() {
-
-                            // XXX: drip marker will be easy
-							$('#map_canvas').gmap('addMarker', 
-                            
-                            
-                            {
-                                'icon': '/img/flowers.png', 
-                                'position': getLatLng(), 'animation': google.maps.Animation.DROP, 'title': 'Hello world!'}, function(map, marker) {
-								$('#map_canvas').gmap('addInfoWindow', { 'position':marker.getPosition(), 'content': 'Hello world!' }, function(iw) { 
-									$(marker).click(function() { 
-											iw.open(map, marker); 
-											map.panTo(marker.getPosition());
-                                            //console.log("Callback"); 
-                                            //map.setCenter(marker.getPosition(), 13);
-									}); 
-								}); 
-							});
-						}
-					});
-                    function getLatLng() {
-						if ( google.loader.ClientLocation != null ) {
-							return new google.maps.LatLng(google.loader.ClientLocation.latitude, google.loader.ClientLocation.longitude);	
-						}
-                        // sweden!
-						//return new google.maps.LatLng(59.3426606750, 18.0736160278);
-
-                        // vancouver?
-						return new google.maps.LatLng(49.216666667, -123.1);
-					}
-				});
+            SAKURA.renderMap('#gmap-2', '#map_canvas');
 			</script>
 			
 			<div data-role="content"> 
