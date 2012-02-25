@@ -15,9 +15,18 @@ SAKURA.renderMap = function(container, div1) {
         $(div).gmap({'center': getLatLng(), 'zoom': 11, 'callback': function() {
 
                 // TODO: get the list of trees
-                $.getJSON('data/vcbf.json', {},
+                $.getJSON('/data/vcbf.json', {},
                     function (data) {
                         SAKURA.data = data.images.image;
+                        //XXX: a hack to show state transition
+                        for (var i=0; i<SAKURA.data.length; i++) {
+                            var t = SAKURA.data[i];
+                            /**
+                              2 kind of trees: 
+                              - flower - /img/flowers.png
+                              - tree - ???
+                            */
+                        }
                         SAKURA.showMonth();
                     }
                     );
