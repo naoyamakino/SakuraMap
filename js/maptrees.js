@@ -13,13 +13,11 @@ SAKURA.renderMap = function(container, div) {
                 // TODO: get the list of trees
                 $.getJSON('data/vcbf.json', {},
                     function (data) {
-                        debugger;
-                        for (var i=0; i<data.images.length; i++) {
-                            var t = trees[i];
+                        for (var i=0; i<data.images.image.length; i++) {
+                            var t = data.images.image[i];
                             // TODO: render the geocode
                             // TODO: render the trees
                             renderTree(t);
-                            return; //XXX
                         }
                     }
                     );
@@ -53,21 +51,22 @@ SAKURA.renderMap = function(container, div) {
         */
         function renderTree(t) {
             // XXX: drip marker will be easy
-            console.log("Rendering tree "+t.desc);
-            var ll = new google.maps.LatLng(t.Lon,t.Lat);
+            console.log("Rendering tree "+t.Desc + " location:" + t.Lon + "," + t.Lat );
+            var ll = new google.maps.LatLng(t.Lat,t.Lon);
             $(div).gmap('addMarker', 
             {
                 'icon': '/img/flowers.png', 
                 'position': ll, 
                 'animation': google.maps.Animation.DROP, 
-                'title': tree.desc
+                'title': t.Desc
             }, function(map, marker) {
-                $(div).gmap('addInfoWindow', { 'position':marker.getPosition(), 'content': 'Hello world!' }, function(iw) { 
+                $(div).gmap('addInfoWindow', { 
+                        'position':marker.getPosition(), 
+                        'content': "<p style='font-size: 8px'>"+t.Desc+"</p>"+"<img width='100px' src='"+t.source+"'></img>",
+                    }, function(iw) { 
                     $(marker).click(function() { 
                             iw.open(map, marker); 
                             map.panTo(marker.getPosition());
-                            //console.log("Callback"); 
-                            //map.setCenter(marker.getPosition(), 13);
                     }); 
                 }); 
             });
