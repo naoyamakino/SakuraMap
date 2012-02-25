@@ -1,0 +1,105 @@
+<!DOCTYPE html> 
+<html> 
+	<head profile="http://dublincore.org/documents/dcq-html/">
+	
+		<title>jQuery mobile with Google maps basic example</title>
+		<meta name="keywords" content="Google maps, jQuery, plugin, mobile, iphone, ipad, android, HTML5" />
+		<meta name="description" content="Basic example with jQuery mobile, Google maps and HTML5" />
+		<meta http-equiv="content-language" content="en"/>
+		
+		<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
+		<meta name="DC.title" content="jQuery mobile with Google maps basic example" />
+		<meta name="DC.subject" content="Google maps;jQuery;plugin;mobile;iphone;ipad;android;HTML5" />
+		<meta name="DC.description" content="Basic example with jQuery mobile, Google maps and HTML5" />
+		<meta name="DC.creator" content="Johan S&auml;ll Larsson" />
+		<meta name="DC.language" content="en"/>
+		
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.0a4/jquery.mobile-1.0a4.min.css" />
+		<style rel="stylesheet">
+			body {  background: #ddd; }
+			.ui-body-c a.ui-link { color: #008595; font-weight: bold; text-decoration: none; }
+			.hidden { display:none; }
+			h2 { font-size: 16px; overflow: hidden; white-space: nowrap; display: block; }
+			.more { text-align: center; }
+		</style>
+		<script src="http://www.google.com/jsapi?key=ABQIAAAAahcO7noe62FuOIQacCQQ7RTHkUDJMJAZieEeKAqNDtpKxMhoFxQsdtJdv3FJ1dT3WugUNJb7xD-jsQ" type="text/javascript"></script>        
+        <script type="text/javascript">
+			google.load("maps", "3", {'other_params':'sensor=true'});
+			google.load("jquery", "1.5");
+		</script>
+		<script type="text/javascript">
+			// Demonstration purpose only...
+			$(document).bind("mobileinit", function () {
+				$.mobile.ajaxEnabled  = true;
+			});
+		</script>
+		<script type="text/javascript" src="http://code.jquery.com/mobile/1.0a4/jquery.mobile-1.0a4.min.js"></script>
+		<script type="text/javascript" src="/js/jquery.ui.map.js"></script>
+		<script type="text/javascript" src="/js/maptrees.js"></script>
+	</head> 
+
+	<body> 
+
+		<div id="gmap-2" data-role="page">
+
+			<div data-role="header">
+				<h1>Blossoms in Vancouver</h1>
+			</div>
+
+			<script type="text/javascript">
+            SAKURA.renderMap('#gmap-2', '#map_canvas');
+			</script>
+			
+			<div data-role="content"> 
+                
+				<div class="ui-bar-c ui-corner-all ui-shadow" style="padding:1em;">
+					<div id="map_canvas" style="height:300px;"></div>
+				</div>
+				
+			</div>
+
+            <!-- XXX: a big hack not to show the images -->
+            <div data-role="fieldcontain">
+                <label for="slider">Time:</label>
+                <span id="month"></span>
+                <input type="range" name="slider" id="slider" value="3" min="0" max="11" style="visibility:hidden" />
+            </div>
+            <script>
+            //XXX: need ui-slider
+            $(".ui-slider").live("mouseup", function() {
+                // show the month for the data
+                var monthInt = $("#slider").val();
+                var month=new Array(12);
+                month[0]="January";
+                month[1]="February";
+                month[2]="March";
+                month[3]="April";
+                month[4]="May";
+                month[5]="June";
+                month[6]="July";
+                month[7]="August";
+                month[8]="September";
+                month[9]="October";
+                month[10]="November";
+                month[11]="December";
+                $("#month").text(month[monthInt]);
+                SAKURA.showMonth(monthInt);
+            });
+            </script>
+			
+			<div data-role="footer" data-theme="a">
+			</div>
+
+			<div id="ft" class="hidden" itemscope itemtype="http://data-vocabulary.org/Person">
+				Author: 
+				<span itemprop="name">Johan S&auml;ll Larsson</span>  
+				<span itemprop="address" itemscope itemtype="http://data-vocabulary.org/Address">
+					<span itemprop="locality">G&ouml;teborg</span>, 
+					<span itemprop="country-name">Sweden</span> 
+				</span>
+			</div>
+			
+		</div>
+	</body>
+	
+</html>

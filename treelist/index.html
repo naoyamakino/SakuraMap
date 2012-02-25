@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+    <link rel="stylesheet" href="jquery.mobile-1.0.1.min.css" />
+    <style type="text/css">
+ul.list .ui-btn-inner {margin-left: -80px}
+.left {float: left;}
+.right{float:right;}
+    </style>
+    <script src="jquery-1.6.2.min.js"></script>
+    <script src="jquery.mobile-1.0.1.min.js"></script>
+    <script type="text/javascript" charset="utf-8">
+$('#treelist').live('pageshow',function(event, ui){
+  console.log('load data');
+  console.log('create list');
+/*
+$('#treecontainer').html('');
+$('#treecontainer').append('  \
+<li data-iconpos="right" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-thumb">  \
+  <div class="ui-btn-inner ui-li"><div class="ui-btn-text"> \
+  <a href="#bar" class="ui-link-inherit">  \
+  <img src="tree.jpg" class="ui-li-thumb"/> \
+  <h3 class="ui-li-heading">Cherry Tree</h3> \
+  <p class="ui-li-desc">Closest Tree</p> \
+  <div class="ui-li-aside ui-li-desc" style="padding-top:18px;padding-right:10px">23m</div> \
+  <span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span> \
+  </a></div></div> \
+</li> \
+');
+*/
+});
+    </script>
+  </head>
+  <body>
+
+<!-- Start of first page -->
+<div data-role="page" id="treelist">
+
+    <div data-role="header">
+  <h2>List of Nearby Trees</h2>
+    </div><!-- /header -->
+
+    <div data-role="content">   
+<ul data-role="listview" data-theme="g" class="list">
+<li data-role="list-divider">&lt;100m</li>
+
+<!--<span id="treecontainer"></span>-->
+
+<li data-iconpos="right" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-thumb">
+  <div class="ui-btn-inner ui-li"><div class="ui-btn-text">
+  <a href="#bar" class="ui-link-inherit">
+  <img src="tree.jpg" class="ui-li-thumb"/>
+  <h3 class="ui-li-heading">Cherry Tree</h3>
+  <p class="ui-li-desc">Closest Tree</p>
+  <div class="ui-li-aside ui-li-desc" style="padding-top:18px;padding-right:10px">23m</div>
+  <span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span>
+  </a></div>
+  </div>
+</li>
+
+
+<li data-iconpos="right" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-thumb">
+  <div class="ui-btn-inner ui-li"><div class="ui-btn-text">
+  <a href="#bar" class="ui-link-inherit">
+  <img src="tree.jpg" class="ui-li-thumb"/>
+  <h3 class="ui-li-heading">Cherry Tree</h3>
+  <p class="ui-li-desc">Second Closest Tree</p>
+  <div class="ui-li-aside ui-li-desc" style="padding-top:18px;padding-right:10px">71m</div>
+  <span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span>
+  </a></div>
+  </div>
+</li>
+
+<li data-role="list-divider">100-500m</li>
+<li data-iconpos="right" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-thumb">
+  <div class="ui-btn-inner ui-li"><div class="ui-btn-text">
+  <a href="#bar" class="ui-link-inherit">
+  <img src="tree.jpg" class="ui-li-thumb"/>
+  <h3 class="ui-li-heading">Cherry Tree</h3>
+  <p class="ui-li-desc">Far Tree</p>
+  <div class="ui-li-aside ui-li-desc" style="padding-top:18px;padding-right:10px">244m</div>
+  <span class="ui-icon ui-icon-arrow-r ui-icon-shadow"></span>
+  </a></div>
+  </div>
+</li>
+
+</ul>
+
+    </div><!-- /content -->
+
+    <div data-role="footer" data-position="fixed">
+    <div data-role="navbar">
+        <ul>
+            <li><a href="a.html">About</a></li>
+            <li><a href="c.html">Contact</a></li>
+        </ul>
+    </div><!-- /navbar -->
+    </div><!-- /footer -->
+</div><!-- /page -->
+
+<!-- Start of second page -->
+<div data-role="page" id="bar">
+
+    <div data-role="header">
+        <h2>Tree Detail</h2>
+<a href="#treelist" data-icon="arrow-l" data-direction="reverse" class="ui-btn-left">Back</a>
+    </div><!-- /header -->
+
+    <div data-role="content">   
+<div class="ui-body ui-body-e"><a href="http://www.vcbf.ca/events/cherry-jam-downtown" style="text-decoration: none"><img class="ui-icon" src="http://www.vcbf.ca/maps/images/cherryjam_logo.png"> Cherry Jam Downtown</a></div>
+<img src="http://www.vcbf.ca/images/stories/20100304_keefercarrall_akebono_cutler_dsc05318r.jpg" style="width:100%"/>
+
+<div class="ui-body ui-body-d" style="padding-bottom: 20px">
+<h3>Longitude</h3>
+-123.10606
+<h3>Latitude</h3>
+49.27906
+<h3>Description</h3>
+Akebono' at Andy Livingstone Park, Keefer and Carrall; three or four trees in an attractive setting.
+</div>
+        <p><a href="#treelist" data-icon="arrow-l" data-direction="reverse" data-role="button">Back to Tree List</a></p>   
+    </div><!-- /content -->
+
+    <div data-role="footer" data-position="fixed">
+    </div><!-- /footer -->
+</div><!-- /page -->
+
+  </body>
+</html>
