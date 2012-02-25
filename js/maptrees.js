@@ -10,22 +10,19 @@ SAKURA.renderMap = function(container, div) {
 
         $(div).gmap({'center': getLatLng(), 'zoom': 11, 'callback': function() {
 
-                // XXX: drip marker will be easy
-                $(div).gmap('addMarker', 
-                
-                
-                {
-                    'icon': '/img/flowers.png', 
-                    'position': getLatLng(), 'animation': google.maps.Animation.DROP, 'title': 'Hello world!'}, function(map, marker) {
-                    $(div).gmap('addInfoWindow', { 'position':marker.getPosition(), 'content': 'Hello world!' }, function(iw) { 
-                        $(marker).click(function() { 
-                                iw.open(map, marker); 
-                                map.panTo(marker.getPosition());
-                                //console.log("Callback"); 
-                                //map.setCenter(marker.getPosition(), 13);
-                        }); 
-                    }); 
-                });
+                // TODO: get the list of trees
+                $.getJSON('data/vcbf.json', {},
+                    function (data) {
+                        debugger;
+                        for (var i=0; i<data.images.length; i++) {
+                            var t = trees[i];
+                            // TODO: render the geocode
+                            // TODO: render the trees
+                            renderTree(t);
+                            return; //XXX
+                        }
+                    }
+                    );
             }
         });
         function getLatLng() {
@@ -37,6 +34,43 @@ SAKURA.renderMap = function(container, div) {
 
             // vancouver?
             return new google.maps.LatLng(49.216666667, -123.1);
+        }
+
+        /**
+         render tree. source data:
+            {
+                source:'http://www.vcbf.ca/images/stories/20100318_austreymchardy_akebono_cutler_dsc05535.jpg',
+                locationid:1084,
+                name:1084,
+                icon:{
+                },
+                info_url:{
+                },
+                lon:-123.034966,
+                lat:49.237988,
+                desc:'Austrey Ave from McHardy to Joyce; Renfrew-Collingwood - Several big old \'Akebono\' line both sides of Austrey from McHardy to Joyce'
+            },
+        */
+        function renderTree(t) {
+            // XXX: drip marker will be easy
+            console.log("Rendering tree "+t.desc);
+            var ll = new google.maps.LatLng(t.Lon,t.Lat);
+            $(div).gmap('addMarker', 
+            {
+                'icon': '/img/flowers.png', 
+                'position': ll, 
+                'animation': google.maps.Animation.DROP, 
+                'title': tree.desc
+            }, function(map, marker) {
+                $(div).gmap('addInfoWindow', { 'position':marker.getPosition(), 'content': 'Hello world!' }, function(iw) { 
+                    $(marker).click(function() { 
+                            iw.open(map, marker); 
+                            map.panTo(marker.getPosition());
+                            //console.log("Callback"); 
+                            //map.setCenter(marker.getPosition(), 13);
+                    }); 
+                }); 
+            });
         }
     });
 }
