@@ -5,7 +5,11 @@
  * </code>
  */
 var SAKURA = {}
-SAKURA.renderMap = function(container, div) {
+//XXX: global data
+var div;
+SAKURA.data = null;
+SAKURA.renderMap = function(container, div1) {
+    div = div1;
     $(container).live("pageshow", function() {
 
         $(div).gmap({'center': getLatLng(), 'zoom': 11, 'callback': function() {
@@ -13,12 +17,8 @@ SAKURA.renderMap = function(container, div) {
                 // TODO: get the list of trees
                 $.getJSON('data/vcbf.json', {},
                     function (data) {
-                        for (var i=0; i<data.images.image.length; i++) {
-                            var t = data.images.image[i];
-                            // TODO: render the geocode
-                            // TODO: render the trees
-                            renderTree(t);
-                        }
+                        SAKURA.data = data.images.image;
+                        SAKURA.showMonth();
                     }
                     );
             }
@@ -49,27 +49,53 @@ SAKURA.renderMap = function(container, div) {
                 desc:'Austrey Ave from McHardy to Joyce; Renfrew-Collingwood - Several big old \'Akebono\' line both sides of Austrey from McHardy to Joyce'
             },
         */
-        function renderTree(t) {
-            // XXX: drip marker will be easy
-            console.log("Rendering tree "+t.Desc + " location:" + t.Lon + "," + t.Lat );
-            var ll = new google.maps.LatLng(t.Lat,t.Lon);
-            $(div).gmap('addMarker', 
-            {
-                'icon': '/img/flowers.png', 
-                'position': ll, 
-                'animation': google.maps.Animation.DROP, 
-                'title': t.Desc
-            }, function(map, marker) {
-                $(div).gmap('addInfoWindow', { 
-                        'position':marker.getPosition(), 
-                        'content': "<p style='font-size: 8px'>"+t.Desc+"</p>"+"<img width='100px' src='"+t.source+"'></img>",
-                    }, function(iw) { 
-                    $(marker).click(function() { 
-                            iw.open(map, marker); 
-                            map.panTo(marker.getPosition());
-                    }); 
-                }); 
-            });
-        }
     });
-}
+};
+
+
+/** show flower in the month */
+SAKURA.showMonth = function(month) {
+
+    if (month) {
+        // if given month...
+        /*
+        $(div).gmap({'callback':function() {
+                $(div).gmap('clear', 'markers');
+        }});
+        */
+        $(div).gmap('clearMarkers');
+    }
+    month = (month===null) ? 3 : month;  // NOTE: default to april
+    for (var i=0; i<SAKURA.data.length; i++) {
+        var t = SAKURA.data[i];
+        // TODO: render the geocode
+        // TODO: render the trees
+        SAKURA.renderTree(t);
+    }
+
+};
+
+
+SAKURA.renderTree = function(t) {
+    // XXX: drip marker will be easy
+    console.log("Rendering tree "+t.Desc + " location:" + t.Lon + "," + t.Lat );
+    var ll = new google.maps.LatLng(t.Lat,t.Lon);
+    $(div).gmap('addMarker', 
+    {
+        'icon': '/img/flowers.png', 
+        'position': ll, 
+        //'animation': google.maps.Animation.DROP, 
+        'title': t.Desc
+    }, function(map, marker) {
+        $(div).gmap('addInfoWindow', { 
+                'position':marker.getPosition(), 
+                'content': "<p style='font-size: 8px'>"+t.Desc+"</p>"+"<img width='100px' src='"+t.source+"'></img>",
+            }, function(iw) { 
+            $(marker).click(function() { 
+                    iw.open(map, marker); 
+                    map.panTo(marker.getPosition());
+            }); 
+        }); 
+    });
+};
+

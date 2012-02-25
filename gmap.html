@@ -57,6 +57,35 @@
 				</div>
 				
 			</div>
+
+            <!-- XXX: a big hack not to show the images -->
+            <div data-role="fieldcontain">
+                <label for="slider">Time:</label>
+                <span id="month"></span>
+                <input type="range" name="slider" id="slider" value="3" min="0" max="11" style="visibility:hidden" />
+            </div>
+            <script>
+            //XXX: need ui-slider
+            $(".ui-slider").live("mouseup", function() {
+                // show the month for the data
+                var monthInt = $("#slider").val();
+                var month=new Array(12);
+                month[0]="January";
+                month[1]="February";
+                month[2]="March";
+                month[3]="April";
+                month[4]="May";
+                month[5]="June";
+                month[6]="July";
+                month[7]="August";
+                month[8]="September";
+                month[9]="October";
+                month[10]="November";
+                month[11]="December";
+                $("#month").text(month[monthInt]);
+                SAKURA.showMonth(monthInt);
+            });
+            </script>
 			
 			<div data-role="footer" data-theme="a">
 				<h3>Need help?</h3>
