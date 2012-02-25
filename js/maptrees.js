@@ -91,7 +91,7 @@ SAKURA.renderTree = function(t) {
     var ll = new google.maps.LatLng(t.Lat,t.Lon);
     $(div).gmap('addMarker', 
     {
-        'icon': '/img/flowers.png', 
+        'icon': '/images/flowers.png', 
         'position': ll, 
         //'animation': google.maps.Animation.DROP, 
         'title': t.Desc
