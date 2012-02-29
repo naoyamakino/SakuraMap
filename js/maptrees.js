@@ -116,9 +116,53 @@ SAKURA.renderTree = function(t) {
             }, function(iw) { 
             $(marker).click(function() { 
                     iw.open(map, marker); 
-                    map.panTo(marker.getPosition());
+                    var pos = marker.getPosition();
+                    map.panTo(pos);
+                    SAKURA.renderFlickr(pos.lat(), pos.lng());
             }); 
         }); 
+    });
+};
+
+/**
+ * function for rendering the flickr images
+ */
+SAKURA.renderFlickr = function (lat, lon) {
+    //TODO: search flickr for related images
+    //http://www.flickr.com/services/api/flickr.photos.search.html
+    $.ajax({
+       url: "http://api.flickr.com/services/rest/",
+       dataType: 'jsonp',
+       jsonpCallback: 'jsonFlickrApi',
+       data: { 
+           method : "flickr.photos.search",
+           'api_key' : "7061c9040394d90934aec559f690cc2c",  // sakuramap.com api key
+           text : "cherry",
+           lat : lat,
+           lon : lon,
+           has_geo : 1,
+           radius: 1, //km
+           perpage: 20, //limit 20
+           format : 'json',
+       },
+       success: function (data) {
+            /**
+             * Example data:
+            {"photos":{"page":1, "pages":3, "perpage":250, "total":"597", "photo":[
+                {"id":"5740320331", "owner":"62826342@N07", "secret":"0cf2c1db17", 
+                    "server":"3612", "farm":4, "title":"Over the Burrad Bridge into Kitslano", 
+                    "ispublic":1, "isfriend":0, "isfamily":0}]}}
+            render URL: http://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
+            */
+            //TODO: render pages
+            var div = $("#flickrimgs").empty();
+            for (var i=0; i<data.photos.photo.length; i++) {
+                var photo = data.photos.photo[i];
+                $("<img height='100px'/>")
+                    .attr('src', 'http://farm'+photo.farm+'.staticflickr.com/'+photo.server+'/'+photo.id+'_'+photo.secret+'.jpg')
+                    .appendTo(div);
+            }
+       }
     });
 };
 
