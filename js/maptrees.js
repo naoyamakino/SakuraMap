@@ -19,6 +19,7 @@ SAKURA.renderMap = function(container, div1) {
                     function (data) {
                         SAKURA.data = data.images.image;
                         //XXX: a hack to show state transition
+                        var boundry = Math.floor(SAKURA.data.length/2);
                         for (var i=0; i<SAKURA.data.length; i++) {
                             var t = SAKURA.data[i];
                             /**
@@ -26,7 +27,17 @@ SAKURA.renderMap = function(container, div1) {
                               - flower - /img/flowers.png
                               - tree - ???
                             */
+                            if (i>boundry) {
+                                t.autumn = 0;
+                                t.fromMonth = 3-Math.floor(Math.random()*2);
+                                t.toMonth = 6+Math.floor(Math.random()*2);
+                            } else {
+                                t.autumn = 1;
+                                t.fromMonth = 8-Math.floor(Math.random()*2);
+                                t.toMonth = 12+Math.floor(Math.random()*2);
+                            }
                         }
+
                         SAKURA.showMonth();
                     }
                     );
@@ -74,12 +85,15 @@ SAKURA.showMonth = function(month) {
         */
         $(div).gmap('clearMarkers');
     }
-    month = (month===null) ? 3 : month;  // NOTE: default to april
+    month = (month===undefined) ? 3 : month;  // NOTE: default to april
     for (var i=0; i<SAKURA.data.length; i++) {
         var t = SAKURA.data[i];
         // TODO: render the geocode
         // TODO: render the trees
-        SAKURA.renderTree(t);
+        if (t.fromMonth <= month && month <= t.toMonth) {
+            SAKURA.renderTree(t);
+        }
+
     }
 
 };
@@ -91,7 +105,7 @@ SAKURA.renderTree = function(t) {
     var ll = new google.maps.LatLng(t.Lat,t.Lon);
     $(div).gmap('addMarker', 
     {
-        'icon': '/images/flowers.png', 
+        'icon': t.autumn ? '/images/wetland.png' : '/images/flowers.png', 
         'position': ll, 
         //'animation': google.maps.Animation.DROP, 
         'title': t.Desc
