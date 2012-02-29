@@ -6,7 +6,7 @@
  */
 var SAKURA = {}
 //XXX: global data
-var div;
+var div,iw;
 SAKURA.data = null;
 SAKURA.renderMap = function(container, div1) {
     div = div1;
@@ -41,6 +41,8 @@ SAKURA.renderMap = function(container, div1) {
                         SAKURA.showMonth();
                     }
                     );
+                // add initial info window
+                $(div).gmap('addInfoWindow', {}, function(iw1) { iw=iw1; }); 
             }
         });
         function getLatLng() {
@@ -110,16 +112,12 @@ SAKURA.renderTree = function(t) {
         //'animation': google.maps.Animation.DROP, 
         'title': t.Desc
     }, function(map, marker) {
-        $(div).gmap('addInfoWindow', { 
-                'position':marker.getPosition(), 
-                'content': "<p style='font-size: 8px'>"+t.Desc+"</p>"+"<img width='100px' src='"+t.source+"'></img>",
-            }, function(iw) { 
-            $(marker).click(function() { 
-                    iw.open(map, marker); 
-                    var pos = marker.getPosition();
-                    map.panTo(pos);
-                    SAKURA.renderFlickr(pos.lat(), pos.lng());
-            }); 
+        $(marker).click(function() { 
+            iw.setContent("<p style='font-size: 8px'>"+t.Desc+"</p>"+"<img width='100px' src='"+t.source+"'></img>");
+            iw.open(map, marker);
+            var pos = marker.getPosition();
+            map.panTo(pos);
+            SAKURA.renderFlickr(pos.lat(), pos.lng());
         }); 
     });
 };
